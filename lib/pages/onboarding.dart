@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../services/support_widget.dart';
+
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
 
@@ -17,6 +19,7 @@ class _OnboardingState extends State<Onboarding> {
           children: [
             SizedBox(height: 120.0),
             Image.asset("images/onboard.png"),
+            SizedBox(height: 50.0),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 20.0),
@@ -31,11 +34,7 @@ class _OnboardingState extends State<Onboarding> {
                     Text(
                       "Manage your daily\n life expenses",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: AppWidget.headlineTextStyle(30.0),
                     ),
                     SizedBox(height: 20.0),
                     Padding(
@@ -47,6 +46,32 @@ class _OnboardingState extends State<Onboarding> {
                           color: const Color.fromARGB(160, 0, 0, 0),
                           fontWeight: FontWeight.w500,
                           fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 40.0),
+                    Container(
+                      margin: EdgeInsets.only(left: 40.0, right: 40.0),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.circular(60.0),
+                        child: Container(
+                          height: 60.0,
+                          decoration: BoxDecoration(
+                            color: Color(0xffee6856),
+                            borderRadius: BorderRadius.circular(60.0),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          child: Center(
+                            child: Text(
+                              "Get Started",
+                              style: TextStyle(
+                                color: Color.fromARGB(149, 0, 0, 0),
+                                fontSize: 26.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
