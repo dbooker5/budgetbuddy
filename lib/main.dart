@@ -1,4 +1,4 @@
-import 'package:budgetbuddy/pages/onboarding.dart';
+import 'package:budgetbuddy/pages/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Onboarding(),
+      home: Home(),
     );
   }
 }
