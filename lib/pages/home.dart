@@ -78,6 +78,7 @@ class _HomeState extends State<Home> {
                         "Expenses",
                         style: AppWidget.headlineTextStyle(18.0),
                       ),
+                      Spacer(),
                       Text(
                         "\$300",
                         style: TextStyle(
@@ -244,7 +245,7 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: _StatCard(
                     title: "Expenses",
-                    amount: "\$5000",
+                    amount: "+\$5000",
                     amountColor: Color(0xffee6856),
                     barColor: Color(0xffee6856),
                   ),
@@ -272,6 +273,7 @@ class _LegendItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(width: 10, height: 10, color: color),
         SizedBox(width: 8),
