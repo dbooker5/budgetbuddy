@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
                         "Expenses",
                         style: AppWidget.headlineTextStyle(18.0),
                       ),
-                      Spacer(),
+                      SizedBox(width: 20.0),
                       Text(
                         "\$300",
                         style: TextStyle(
@@ -251,6 +251,37 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(height: 30.0),
+            Container(
+              decoration: BoxDecoration(color: Color(0xffee6856)),
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    child: Image.asset(
+                      "images/like.png",
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(width: 20.0),
+                  Text(
+                    "Your expense plan looks good",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
