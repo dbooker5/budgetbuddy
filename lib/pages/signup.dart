@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'login.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -163,12 +165,21 @@ class _SignupState extends State<Signup> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Text(
-                          "Login",
-                          style: TextStyle(
-                            color: Color(0xff904c6e),
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                        SizedBox(width: 5.0),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                            );
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Color(0xff904c6e),
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
