@@ -1,4 +1,6 @@
 import 'package:budgetbuddy/pages/signup.dart';
+import 'package:budgetbuddy/pages/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -9,163 +11,200 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Future<void> userLogin() async {
+    if (emailController.text.isEmpty ||
+        passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("All fields are required")),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("Login Successful"),
+        ),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const Home()),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? "Login failed")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Stack(
-          children: [
-            Image.asset(
-              "images/login.png",
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 90.0, right: 50.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Welcome\nBack!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 70.0),
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                      color: Color(0xff3f3d65),
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Container(
-                    margin: EdgeInsets.only(right: 30.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.mail,
-                          size: 28,
-                          color: Color(0xff904c6e),
-                        ),
-                        hintText: "Enter Email",
-                        hintStyle: TextStyle(fontSize: 18.0),
+      body: Stack(
+        children: [
+          Image.asset(
+            "images/login.png",
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 90),
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 50.0),
+                    child: Text(
+                      "Welcome\nBack!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  SizedBox(height: 30.0),
-                  Text(
-                    "Password",
-                    style: TextStyle(
-                      color: Color(0xff3f3d65),
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.w500,
+                ),
+
+                const SizedBox(height: 70),
+
+                const Text(
+                  "Email",
+                  style: TextStyle(
+                    color: Color(0xff3f3d65),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Container(
+                  margin: const EdgeInsets.only(right: 30),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(
+                        Icons.mail,
+                        color: Color(0xff904c6e),
+                      ),
+                      hintText: "Enter Email",
                     ),
                   ),
-                  SizedBox(height: 10.0),
-                  Container(
-                    margin: EdgeInsets.only(right: 30.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.password,
-                          size: 28,
-                          color: Color(0xff904c6e),
-                        ),
-                        hintText: "Enter Password",
-                        hintStyle: TextStyle(
-                          fontSize: 18.0,
+                ),
+
+                const SizedBox(height: 30),
+
+                const Text(
+                  "Password",
+                  style: TextStyle(
+                    color: Color(0xff3f3d65),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Container(
+                  margin: const EdgeInsets.only(right: 30),
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Color(0xff904c6e),
+                      ),
+                      hintText: "Enter Password",
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 50),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 40, right: 50),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Next",
+                        style: TextStyle(
                           color: Color(0xff3f3d65),
+                          fontSize: 30,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 50.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40.0, right: 50.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Next",
-                          style: TextStyle(
-                            color: Color(0xff3f3d65),
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
+                      GestureDetector(
+                        onTap: userLogin,
+                        child: Container(
                           height: 80,
                           width: 80,
                           decoration: BoxDecoration(
-                            color: Color(0xff904c6e),
-                            borderRadius: BorderRadius.circular(60.0),
+                            color: const Color(0xff904c6e),
+                            borderRadius: BorderRadius.circular(60),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
-                            size: 40.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 50.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account?",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(width: 5.0),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Signup()),
-                          );
-                        },
-                        child: Text(
-                          "SignUp",
-                          style: TextStyle(
-                            color: Color(0xff904c6e),
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
+                            size: 40,
                           ),
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+
+                const SizedBox(height: 50),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account?"),
+                    const SizedBox(width: 5),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const Signup()),
+                        );
+                      },
+                      child: const Text(
+                        "SignUp",
+                        style: TextStyle(
+                          color: Color(0xff904c6e),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
