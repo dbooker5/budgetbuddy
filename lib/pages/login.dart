@@ -1,5 +1,5 @@
-import 'package:budgetbuddy/pages/signup.dart';
 import 'package:budgetbuddy/pages/home.dart';
+import 'package:budgetbuddy/pages/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,11 +15,10 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> userLogin() async {
-    if (emailController.text.isEmpty ||
-        passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("All fields are required")),
-      );
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("All fields are required")));
       return;
     }
 
@@ -43,9 +42,24 @@ class _LoginState extends State<Login> {
         MaterialPageRoute(builder: (_) => const Home()),
       );
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? "Login failed")),
-      );
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text("No user found for that email"),
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(e.message ?? "Wrong password provided by User"),
+          ),
+        );
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message ?? "Login failed")));
     }
   }
 
@@ -105,10 +119,7 @@ class _LoginState extends State<Login> {
                     controller: emailController,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.mail,
-                        color: Color(0xff904c6e),
-                      ),
+                      prefixIcon: Icon(Icons.mail, color: Color(0xff904c6e)),
                       hintText: "Enter Email",
                     ),
                   ),
@@ -133,10 +144,7 @@ class _LoginState extends State<Login> {
                     controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: Color(0xff904c6e),
-                      ),
+                      prefixIcon: Icon(Icons.lock, color: Color(0xff904c6e)),
                       hintText: "Enter Password",
                     ),
                   ),
