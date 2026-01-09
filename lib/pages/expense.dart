@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class Expense extends StatefulWidget {
@@ -58,7 +59,7 @@ class _ExpenseState extends State<Expense> {
         ),
         title: const Text(
           "Add Expense",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -82,7 +83,7 @@ class _ExpenseState extends State<Expense> {
             /// ENTER AMOUNT
             const Text(
               "Enter Amount",
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
             _inputField(
@@ -97,7 +98,7 @@ class _ExpenseState extends State<Expense> {
             /// SELECT CATEGORY
             const Text(
               "Select Category",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
             _dropdownField(),
@@ -124,34 +125,41 @@ class _ExpenseState extends State<Expense> {
                   const SizedBox(width: 15),
                   Text(
                     DateFormat("dd-MM-yyyy").format(selecteddate),
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
 
-            const Spacer(),
+            SizedBox(height: 50),
 
             /// SUBMIT BUTTON
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Save expense to database
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffef7a6a),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            Center(
+              child: SizedBox(
+                width: 180,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (amountController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Please enter an amount")),
+                      );
+                      return;
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xffef7a6a),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                ),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                  child: const Text(
+                    "Submit",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -180,6 +188,9 @@ class _ExpenseState extends State<Expense> {
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+        ],
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hint,
