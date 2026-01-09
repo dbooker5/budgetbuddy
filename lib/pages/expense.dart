@@ -88,7 +88,9 @@ class _ExpenseState extends State<Expense> {
             _inputField(
               controller: amountController,
               hint: 'Amount',
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
             ),
             SizedBox(height: 20),
 
@@ -178,7 +180,15 @@ class _ExpenseState extends State<Expense> {
       child: TextField(
         controller: controller,
         keyboardType: keyboardType,
-        decoration: InputDecoration(border: InputBorder.none),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: Colors.grey,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
     );
   }
