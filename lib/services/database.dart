@@ -9,4 +9,15 @@ class DatabaseMethods {
         .doc(userInfoMap["Id"])
         .set(userInfoMap);
   }
+
+  Future<void> addUserExpense(
+    Map<String, dynamic> userExpense,
+    String Id,
+  ) async {
+    await _firestore
+        .collection("users")
+        .doc(userExpense["Id"])
+        .collection("expenses")
+        .add(userExpense);
+  }
 }
