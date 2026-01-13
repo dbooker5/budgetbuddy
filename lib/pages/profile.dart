@@ -1,4 +1,8 @@
+import 'package:budgetbuddy/pages/home.dart';
+import 'package:budgetbuddy/pages/income.dart';
 import 'package:flutter/material.dart';
+
+import 'expense.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -12,7 +16,12 @@ class Profile extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          },
         ),
         title: const Text(
           "Profile",
@@ -52,14 +61,24 @@ class Profile extends StatelessWidget {
             profileActionTile(
               icon: Icons.add_card,
               text: "Add Expense",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Expense()),
+                );
+              },
             ),
 
             /// ADD INCOME
             profileActionTile(
               icon: Icons.attach_money,
               text: "Add Income",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Income()),
+                );
+              },
             ),
 
             /// LOGOUT
