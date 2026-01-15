@@ -16,7 +16,7 @@ class DatabaseMethods {
   ) async {
     await _firestore
         .collection("users")
-        .doc(userExpense["Id"])
+        .doc(Id)
         .collection("expenses")
         .add(userExpense);
   }
