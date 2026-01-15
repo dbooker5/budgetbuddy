@@ -1,4 +1,4 @@
-import 'package:budgetbuddy/pages/expense.dart';
+import 'package:budgetbuddy/pages/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Expense(),
+      home: Home(),
     );
   }
 }
